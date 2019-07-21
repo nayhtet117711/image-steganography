@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Form Result</title>
+    </head>
+    <body>
+
+        <div style="padding: 4px;">
+            Resulted Image
+        </div>
+        <div style="padding: 4px;">
+            <img 
+                style="padding: 2px; border: 1px solid #e5e5e5; max-width: 100%;" 
+                src={{ fileUrl }} 
+                alt={{ fileName }} />
+        </div>
+        <div style="padding: 8px;">
+            <a href={{ fileUrl }}>Download File</a>
+        </div>
+        <div style="word-wrap: break-word; padding: 8px; margin: 10px; background: #ffdddd; border-radius: 8px">
+            <div style="font-size: 14pt; padding: 4px;">Encrypted Text:</div>
+            <div style="padding: 6px">{{ encryptedText }}</div>
+        </div>
+
+        <div style="word-wrap: break-word; padding: 8px; margin: 10px; background: #ddffdd; border-radius: 8px">
+            <div style="font-size: 14pt; padding: 4px;">Decrypted Text:</div>
+            <div style="padding: 6px">{{ decryptedText }}</div>
+        </div>
+
+        <div style="word-wrap: break-word; padding: 8px; margin: 10px; background: #ddffdd; border-radius: 8px">
+            <div style="font-size: 14pt; padding: 4px;">Message from Image:</div>
+            <div style="padding: 6px">{{ messageFromImage }}</div>
+        </div>
+
+    </body>
+</html>

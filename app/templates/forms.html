@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Forms</title>
+    </head>
+    <body>
+
+        <form action="/forms" method="POST" enctype="multipart/form-data" >
+            <div style="padding: 4px;">
+                Content text:
+            </div>
+            <div style="padding: 4px;">
+                <input type="text" name="text" placeholder="Secret text (max-214)" />
+            </div>
+            <div style="padding: 4px;">
+                <input type="file" name="imagee" accept="image/png" />
+            </div>
+            <div style="padding: 4px;">
+                <input type="submit" value="Submit Form" />
+            </div>
+        </form>
+
+    </body>
+</html>
