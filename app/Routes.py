@@ -44,16 +44,16 @@ def forms():
       privKey = open(os.path.join(app.root_path,"keys", "private.key")).read()
       
       encryptedText = encrypt(text, importKey(pubKey)).hex()
-      print(text)
-      hideMessage(os.path.join(app.root_path, 'uploaded', fileName), text)
+      print(encryptedText)
+      hideMessage(os.path.join(app.root_path, 'uploaded', fileName), encryptedText)
       # hidedImage.save(os.path.join(app.root_path, 'uploaded', fileName))
 
       messageFromImage = extractMessage(os.path.join(app.root_path, 'uploaded', fileName))
 
-      decryptedText = ""#decrypt(bytes.fromhex(encryptedText), importKey(privKey))
+      decryptedText = decrypt(bytes.fromhex(messageFromImage), importKey(privKey))
 
       print("Message from Image ---->")
-      print("->"+messageFromImage)
+      print("->"+decryptedText)
 
       return render_template(
         'formResult.html', 
