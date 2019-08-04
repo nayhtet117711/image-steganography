@@ -44,22 +44,21 @@ def forms():
       privKey = open(os.path.join(app.root_path,"keys", "private.key")).read()
       
       encryptedText = encrypt(text, importKey(pubKey)).hex()
-      print(encryptedText)
-      hideMessage(os.path.join(app.root_path, 'uploaded', fileName), encryptedText)
-      # hidedImage.save(os.path.join(app.root_path, 'uploaded', fileName))
+      print("encText: "+encryptedText)
+      # hideMessage(os.path.join(app.root_path, 'uploaded', fileName), encryptedText)
 
-      messageFromImage = extractMessage(os.path.join(app.root_path, 'uploaded', fileName))
+      # messageFromImage = extractMessage(os.path.join(app.root_path, 'uploaded', fileName))
 
-      decryptedText = decrypt(bytes.fromhex(messageFromImage), importKey(privKey))
+      # decryptedText = decrypt(bytes.fromhex(messageFromImage), importKey(privKey))
+      decryptedText = decrypt(bytes.fromhex(encryptedText), importKey(privKey))
 
-      print("Message from Image ---->")
-      print("->"+decryptedText)
+      print("decText: "+decryptedText)
 
       return render_template(
         'formResult.html', 
         fileUrl='/download/'+fileName, 
         fileName=fileName,
-        encryptedText=encryptedText, decryptedText=decryptedText, messageFromImage=messageFromImage)
+        encryptedText=encryptedText, decryptedText=decryptedText)#, messageFromImage=messageFromImage)
       
 def download_file(fileName):
    uploaedFolder = os.path.join(app.root_path, 'uploaded')
