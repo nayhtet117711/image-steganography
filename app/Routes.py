@@ -2,33 +2,11 @@ from flask import Flask, render_template, request, send_from_directory, escape
 from werkzeug import secure_filename
 import os
 
-from RSAEncryption import newkeys, encrypt, decrypt, importKey
+from RSA import encrypt, decrypt
+from RSAKeyGenerator import generate
 from LSBHiding import hideMessage, extractMessage
 
 app = Flask(__name__)
-
-def index():
-   privateKey, publicKey = newkeys(2048)
-   privateKeyFormated = privateKey.exportKey().decode('ascii')
-   publicKeyFormated = publicKey.exportKey().decode('ascii')
-   return render_template('index.html', privateKey=privateKeyFormated, publicKey=publicKeyFormated)
-
-def get_user_list():
-   querys = request.args
-   try:
-      querys['filter']
-   except:
-      return "List of all users."
-   else:
-      return "List of Users filtered  by "+querys['filter']
-
-def get_user_info(username):
-   user = { 
-      'fullName': 'Nay Htet Zaw', 
-      'age': 24, 
-      'city': 'Mandalay'
-   }
-   return render_template('userInfo.html', user=user)
 
 def forms():
    if request.method == 'GET':
@@ -40,17 +18,10 @@ def forms():
       os.makedirs(os.path.join(app.root_path, 'uploaded'), exist_ok=True)
       image.save(os.path.join(app.root_path, 'uploaded', fileName))
       
-      pubKey = open(os.path.join(app.root_path,"keys", "publickey.pem")).read()
-      privKey = open(os.path.join(app.root_path,"keys", "private.key")).read()
-      
-      encryptedText = encrypt(text, importKey(pubKey)).hex()
+      encryptedText = encrypt(text)
       print("encText: "+encryptedText)
-      # hideMessage(os.path.join(app.root_path, 'uploaded', fileName), encryptedText)
 
-      # messageFromImage = extractMessage(os.path.join(app.root_path, 'uploaded', fileName))
-
-      # decryptedText = decrypt(bytes.fromhex(messageFromImage), importKey(privKey))
-      decryptedText = decrypt(bytes.fromhex(encryptedText), importKey(privKey))
+      decryptedText = decrypt(encryptedText)
 
       print("decText: "+decryptedText)
 
