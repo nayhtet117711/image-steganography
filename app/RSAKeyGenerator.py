@@ -12,7 +12,7 @@ def generate():
     pub = "Public key( " + str(n) + " , " + str(e) + " )\n"
     pri = "Private key( " + str(n) + " , " + str(d) + " )\n"
 
-    file = open("key_generator.txt", "w")
+    file = open("keys/key_generator.txt", "w")
     file.write(pub)
     file.write(pri)
     file.write(s)
