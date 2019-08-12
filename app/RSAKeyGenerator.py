@@ -4,23 +4,28 @@ import random
 def generate():
 
     p,q,n,e,d = gen_keys()
-    s = "p = " + str(p) + "\n"
-    t = "q = " + str(q) + "\n"
-    x = "n = " + str(n) + "\n"
-    y = "e = " + str(e) + "\n"
-    z = "d = " + str(d) + "\n"
-    pub = "Public key( " + str(n) + " , " + str(e) + " )\n"
-    pri = "Private key( " + str(n) + " , " + str(d) + " )\n"
+    # s = "p = " + str(p) + "\n"
+    # t = "q = " + str(q) + "\n"
+    # x = "n = " + str(n) + "\n"
+    # y = "e = " + str(e) + "\n"
+    # z = "d = " + str(d) + "\n"
+    # pub = "Public key( " + str(n) + " , " + str(e) + " )\n"
+    # pri = "Private key( " + str(n) + " , " + str(d) + " )\n"
 
-    file = open("keys/key_generator.txt", "w")
-    file.write(pub)
-    file.write(pri)
-    file.write(s)
-    file.write(t)
-    file.write(x)
-    file.write(y)
-    file.write(z)
-    file.close()
+    # file = open("keys/key_generator.txt", "w")
+    # file.write(pub)
+    # file.write(pri)
+    # file.write(s)
+    # file.write(t)
+    # file.write(x)
+    # file.write(y)
+    # file.write(z)
+    # file.close()
+
+    pubKey = str(n) + " " + str(e)
+    priKey = str(n) + " " + str(d)
+    return [pubKey, priKey]
+
 
 def get_prime():
     prime = []

@@ -1,16 +1,18 @@
-from flask import Flask
+from flask import Flask, render_template
 
-from Routes import forms, download_file
+from Routes import encryptText, decryptText, download_file, generateKey
 
 app = Flask(__name__)
 
-# app.add_url_rule("/", "index", index, methods=["GET"])
+@app.route("/")
+def indexPage():
+    return render_template('index.html')
 
-# app.add_url_rule("/users", "user-list", get_user_list, methods=["GET"])
+app.add_url_rule("/keys", "generate-keys", generateKey, methods=["GET", "POST"])
 
-# app.add_url_rule("/users/<username>", "user-info", get_user_info, methods=["GET"])
+app.add_url_rule("/sender", "sender", encryptText, methods=["GET", "POST"])
 
-app.add_url_rule("/forms", "form-submit", forms, methods=["GET", "POST"])
+app.add_url_rule("/receiver", "receiver", decryptText, methods=["GET", "POST"])
 
 app.add_url_rule("/download/<fileName>", "form-submits", download_file, methods=["GET"])
 

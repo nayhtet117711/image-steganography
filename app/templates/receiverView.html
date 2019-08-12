@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Receiver</title>
+</head>
+
+<body style="padding: 48px; font-size: 20px;" align="center">
+    <div style="display: inline-block;" align="left">
+        <div style="font-size: 18px">
+            <a href="/">Home</a>
+        </div>
+        <h2>Decrypt the encrypted text you received.</h2>
+        <form action="/receiver" method="POST" enctype="multipart/form-data">
+            <div style="padding: 8px;">
+                <div style="padding-top: 4px; padding-bottom: 4px;">Encrypted message text.</div>
+                <textarea name="text" rows="2" cols="50" placeholder="Encrypted text"
+                    style="font-size: 16px; padding: 2px;" required></textarea>
+            </div>
+            <div style="padding: 8px;">
+                <div style="padding-top: 4px; padding-bottom: 4px;">Private key to decrypt.</div>
+                <textarea name="privateKey" rows="2" cols="50" style="padding: 8px;font-size: 16px"
+                    placeholder="Enter private key here." required></textarea>
+            </div>
+            <div style="padding: 8px;">
+                <input type="submit" style="font-size: 16px; padding:2px;" value="Submit to Decrypt" />
+            </div>
+        </form>
+        <br>
+        <hr>
+        <div style="padding: 16px;">
+            <div style="padding-top: 4px; padding-bottom: 4px;">Decrypted text</div>
+            <textarea readonly rows="4" cols="50" style="padding: 8px;font-size: 16px"
+                placeholder="Decrypted text will be shown here.">{{decryptedText}}</textarea>
+        </div>
+    </div>
+
+</body>
+
+</html>

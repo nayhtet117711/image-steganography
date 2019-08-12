@@ -8,29 +8,52 @@ from LSBHiding import hideMessage, extractMessage
 
 app = Flask(__name__)
 
-def forms():
+def encryptText():
    if request.method == 'GET':
-      return render_template('forms.html')
+      return render_template('senderView.html')
    else :
       text = request.form['text']
-      image = request.files['imagee']
-      fileName = secure_filename(image.filename)
-      os.makedirs(os.path.join(app.root_path, 'uploaded'), exist_ok=True)
-      image.save(os.path.join(app.root_path, 'uploaded', fileName))
+      publicKey = request.form['publicKey']
+
+      print("secretText: "+text)
+      print("publicKey: "+ publicKey)
       
-      encryptedText = encrypt(text)
-      print("encText: "+encryptedText)
+      if(len(str(text))>100):
+         return render_template(
+            'senderView.html', 
+            errorText="Secret text is too long.")
 
-      decryptedText = decrypt(encryptedText)
-
-      print("decText: "+decryptedText)
+      encryptedText = encrypt(text, publicKey)
+      print("encryptedText: "+encryptedText)
 
       return render_template(
-        'formResult.html', 
-        fileUrl='/download/'+fileName, 
-        fileName=fileName,
-        encryptedText=encryptedText, decryptedText=decryptedText)#, messageFromImage=messageFromImage)
+        'senderView.html', 
+        encryptedText=encryptedText)
+
+def decryptText():
+   if request.method == 'GET':
+      return render_template('receiverView.html')
+   else :
+      text = request.form['text']
+      privateKey = request.form['privateKey']
+
+      print("encryptedText: "+ text)
+      print("privateKey: "+privateKey)
+      
+      decryptedText = decrypt(text, privateKey)
+      print("decryptedText: "+decryptedText)
+
+      return render_template(
+        'receiverView.html', 
+        decryptedText=decryptedText)
       
 def download_file(fileName):
    uploaedFolder = os.path.join(app.root_path, 'uploaded')
    return send_from_directory(directory=uploaedFolder, filename=fileName, as_attachment=True)
+
+def generateKey ():
+   if request.method == 'GET':
+      return render_template('keyGenerate.html')
+   else :
+      pubKey,priKey = generate()
+      return render_template('keyGenerate.html', privateKey=priKey, publicKey=pubKey)

@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<body style="padding: 48px;" align="center">
+    <div style="display: inline-block;" align="left">
+        <div style="padding-left: 16px; font-size: 18px">
+            <a href="/">Home</a>
+        </div>
+
+        <div style="padding: 16px;">
+            <h2>To generate keys click the Generate Button below.</h2>
+            <form action="/keys" method="POST">
+                <button type="submit" style="padding: 12px; background: #1E90FF; color: white; cursor: pointer; border: 1px solid #1E90FF;border-radius: 8px;">GENERATE KEYS</button>
+            </form>
+        </div>
+
+        <div style="padding: 16px; font-size: 18px;">
+            <p>Copy and save the private key and public key in your local files.</p>
+            <h3>Private Key</h3>
+            <p>Use private to decrypt the text.</p>
+            <textarea readonly rows="2" cols="80" style="padding: 8px;font-size: 16px;"
+                placeholder="Private key will be shown here.">{{ privateKey }}</textarea>
+            <h3>Public Key</h3>
+            <p>Use public to encrypt the text.</p>
+            <textarea readonly rows="2" cols="80" style="padding: 8px;font-size: 16px;"
+                placeholder="Public key will be shown here.">{{ publicKey }}</textarea>
+        </div>
+    </div>
+
+</body>
+
+</html>
