@@ -21,6 +21,8 @@ def encryptText():
       if(len(str(text))>100):
          return render_template(
             'senderView.html', 
+            text=text,
+            publicKey=publicKey,
             errorText="Secret text is too long.")
 
       encryptedText = encrypt(text, publicKey)
@@ -28,6 +30,8 @@ def encryptText():
 
       return render_template(
         'senderView.html', 
+        text=text,
+        publicKey=publicKey,
         encryptedText=encryptedText)
 
 def decryptText():
@@ -45,6 +49,8 @@ def decryptText():
 
       return render_template(
         'receiverView.html', 
+        text=text,
+        privateKey=privateKey,
         decryptedText=decryptedText)
       
 def download_file(fileName):

@@ -16,12 +16,12 @@
             <div style="padding: 8px;">
                 <div style="padding-top: 4px; padding-bottom: 4px;">Encrypted message text.</div>
                 <textarea name="text" rows="2" cols="50" placeholder="Encrypted text"
-                    style="font-size: 16px; padding: 2px;" required></textarea>
+                    style="font-size: 16px; padding: 2px;" required>{{ text }}</textarea>
             </div>
             <div style="padding: 8px;">
                 <div style="padding-top: 4px; padding-bottom: 4px;">Private key to decrypt.</div>
                 <textarea name="privateKey" rows="2" cols="50" style="padding: 8px;font-size: 16px"
-                    placeholder="Enter private key here." required></textarea>
+                    placeholder="Enter private key here." required>{{ privateKey }}</textarea>
             </div>
             <div style="padding: 8px;">
                 <input type="submit" style="font-size: 16px; padding:2px;" value="Submit to Decrypt" />

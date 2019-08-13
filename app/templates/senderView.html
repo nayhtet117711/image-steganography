@@ -18,12 +18,12 @@
             <div style="padding: 8px;">
                 <div style="padding-top: 4px; padding-bottom: 4px;">Secret message text.</div>
                 <textarea name="text" rows="2" cols="50" placeholder="Secret text (max-100)"
-                    style="font-size: 16px; padding: 2px;" required></textarea>
+                    style="font-size: 16px; padding: 2px;" required>{{ text }}</textarea>
             </div>
             <div style="padding: 8px;">
                 <div style="padding-top: 4px; padding-bottom: 4px;">Public key to encrypt.</div>
                 <textarea name="publicKey" rows="2" cols="50" style="padding: 8px;font-size: 16px;"
-                    placeholder="Enter public key here." required></textarea>
+                    placeholder="Enter public key here." required>{{ publicKey }}</textarea>
             </div>
             <div style="padding: 8px;">
                 <input type="submit" style="font-size: 16px; padding:2px;" value="Submit to Encrypt" />
