@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 from Routes import encryptText, decryptText, download_file, generateKey
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def indexPage():
-    return render_template('index.html')
+    return redirect("/sender")
 
 app.add_url_rule("/keys", "generate-keys", generateKey, methods=["GET", "POST"])
 

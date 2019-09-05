@@ -30,6 +30,7 @@ def embedBitsToPixels(binaryTriplePairs, pixels):
        return newPixels
 
 def encodeLSB(message, imageFilename, newImageFilename):
+   
        img = Image.open(imageFilename)
        size = img.size
 

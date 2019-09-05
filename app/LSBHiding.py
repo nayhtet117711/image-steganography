@@ -12,6 +12,7 @@
 import LsbSteg
 
 def hideMessage(filePath, message):
+    print("path: "+filePath)
     LsbSteg.encodeLSB(message, filePath, filePath)
     return True
 
