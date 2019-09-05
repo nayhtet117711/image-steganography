@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_from_directory, escape
 from werkzeug import secure_filename
 import os
 import random
+from PIL import Image
 
 from RSA import encrypt, decrypt
 from RSAKeyGenerator import generate
@@ -29,6 +30,15 @@ def encryptText():
 
       text = list(open(os.path.join(app.root_path, 'temp', secFileName)))[0]
       publicKey = list(open(os.path.join(app.root_path, 'temp', pubKeyName)))[0]
+
+      img = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
+      imgWidth, imgHeight = img.size
+      if(imgWidth>800 | imgHeight>800) :
+         return render_template(
+            'senderView.html', 
+            text=text,
+            publicKey=publicKey,
+            errorText="Image pixel size more than 800x800.")
 
       if(len(str(text))>100):
          return render_template(
