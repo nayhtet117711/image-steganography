@@ -3,10 +3,11 @@
 <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href= "{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+        <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container py-4">
+        <!-- <div class="row justify-content-center">
             <div class="col-8 py-4 px-0">
                 <div class="py-3 text-center text-light bg-primary rounded">
                     <div class="h3 pt-3 pb-4">SECRET MESSAGING with RSA and LSB</div>
@@ -15,33 +16,46 @@
                         <a href="/receiver" class="btn btn-success mx-3">Receiver Page</a>
                         <a href="/keys" class="btn btn-warning">Generate Key</a>
                     </div>
-                </div>
-                
+                </div>                
             </div>
-        </div>
+        </div> -->
         <div class="row  justify-content-center">
-            <div class="col-8 py-4 rounded border border-primary">
+            <div class="col-8 p-0 rounded border border-primary pb-4">
 
-                    <div class="py-3">
-                        <div class="py-1 py-2">To generate keys click the Generate Button below.</div>
+                <div class="bg-primary text-white p-3 text-center h5">
+                    <a href="/sender" class="text-light" style="float: left;"><i class="fa fa-arrow-left"></i></a>
+                    <span>RSA Key Pair Generation</span>
+                </div>
+               
+                <div class="p-3">
+                    <div class="pt-3 pb-5 d-flex justify-content-center">
                         <form action="/keys" method="POST">
-                            <button type="submit" class="btn btn-primary">Generate Keys</button>
+                            <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-key pr-3"></i>Generate Keys</button>
                         </form>
                     </div>
-            
-                    <div class="py-3">
-                        <div class="py-3 h5 bg-success text-light p-3 rounded text-center">RESULT</div>
-                        <div class="py-3">
-                            <h4>Private Key</h4>
-                            <p>Use private to decrypt the text.</p>
-                            <a href="{{ privateKey }}" class="btn btn-success">Download Private Key File</a>        
+                    
+                    <div class="border border-primary rounded">
+                        <div class="bg-primary text-white p-2">Private Key</div>
+                        <div class="p-3">
+                            <div class="py-2">
+                                <textarea rows="4" class="form-control bg-light" placeholder="Private key">{{ privateKeyText }}</textarea>
+                            </div>
+                            <div class="py-2">
+                                <a href="{{ privateKey }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Private Key</a>
+                            </div>       
                         </div>
-                        <div class="py-3">
-                            <h4>Public Key</h4>
-                            <p>Use public to encrypt the text.</p>
-                            <a href="{{ publicKey }}" class="btn btn-success">Download Public Key File</a>
+                        <div class="bg-primary text-white p-2">Public Key</div>
+                        <div class="p-2">
+                            <div class="py-2">
+                                <textarea rows="4" class="form-control bg-light" placeholder="Public key">{{ publicKeyText }}</textarea>
+                            </div>
+                            <div class="py-2">
+                                <a href="{{ publicKey }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Public Key</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+
             </div>
         </div>
     </div>

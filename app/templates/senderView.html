@@ -7,85 +7,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
 
     <script>
         $(function () {
-            $("#imgInputFile").change(function (e) {
-                for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-                    var file = e.originalEvent.srcElement.files[i];
-                    var reader = new FileReader();
-                    reader.onloadend = function () {
-                        $("#imgInput").attr("src", reader.result)
-                    }
-                    reader.readAsDataURL(file);
-
-                }
-            });
+            
         })
     </script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-8 py-4 px-0">
-                <div class="py-3 text-center text-light bg-primary rounded">
-                    <div class="h3 pt-3 pb-4">SECRET MESSAGING with RSA and LSB</div>
-                    <div class="py-1">
-                        <a href="/sender" class="btn btn-light ">Sender Page</a>
-                        <a href="/receiver" class="btn btn-success mx-3">Receiver Page</a>
-                        <a href="/keys" class="btn btn-warning">Generate Key</a>
+    <div class="container py-3">
+        <div class="row justify-content-center py-3">
+            <div class="col-8 p-0 pb-4 border border-primary rounded bg-primary">
+                <div class="pt-4 bg-primary text-light text-center d-flex flex-row justify-content-between px-3">
+                    <div class="align-items-center pt-1">
+                        <a href="/" class="text-light h4"><i class="fa fa-arrow-left"></i></a>
+                    </div>
+                    <div class="h5">Sender - RSA</div>
+                    <div>
+                        <a href="/keys" class="btn btn-warning"><i class="fa fa-key pr-2"></i>Generate Key</a>
                     </div>
                 </div>
-                
-            </div>
-        </div>
-        <div class="row justify-content-center py-3">
-            <div class="col-8 p-3 py-4 border border-primary rounded">
-                <h3 class="text-center">Sender</h3>
-                <div class="text-danger"><b>{{errorText}}</b></div>
-                <form action="/sender" method="POST" enctype="multipart/form-data">
-                    <div class="py-2">
-                        <div>Secret message text file</div>
-                        <input type="file" name ="secTextFile" class="form-control" /> 
+
+                <div class="p-3">
+                    <div class="border border-primary rounded bg-white">
+                        <div class="text-danger"><b>{{errorText}}</b></div>
+
+                        <!-- Input -->
+                        <form action="/sender" method="POST" enctype="multipart/form-data">
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Secret Message</div>
+                                <div class="d-flex flex-column">
+                                    <div class="py-2">
+                                        <textarea rows="3" name="secText" class="form-control bg-light" placeholder="Text Message">{{ secText }}</textarea>
+                                    </div>
+                                    <div class="p-1 rounded border bg-success" style="max-width: 260px;">
+                                        <input type="file" name ="secTextFile" class="text-white"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Public Key</div>
+                                <div class="d-flex flex-column">
+                                    <div class="py-2">
+                                        <textarea rows="3" name="pubKeyText" class="form-control bg-light" placeholder="Text Message">{{ pubKeyText }}</textarea>
+                                    </div>
+                                    <div class="p-1 rounded border bg-success" style="max-width: 260px;">
+                                        <input type="file" name ="pubKeyFile" class="text-white"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 text-center">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check pr-2"></i>Encrypt Message</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="py-2">
-                        <div>Public key to encrypt.</div>
-                        <input type="file" name ="pubKeyFile" class="form-control" /> 
-                    </div>
-                    <div class="py-2">
-                        <label>Image to use in encryption.</label>
-                        <input class="form-control" type="file" name="imgInput" accept="image/png" id="imgInputFile" />
+
+                    <!-- Output -->
+                    {% if encryptedText|length > 0 %}
+                    <div class="p-3 bg-white rounded mt-4">
+                        <div class="p-1 text-muted">Encrypted Text</div>
                         <div class="py-2">
-                            <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="Uploaded Image" id="imgInput" />
+                            <textarea rows="3" name="pubKeyText" class="form-control bg-light" placeholder="Text Message">{{ encryptedText }}</textarea>
+                        </div>
+                        <div class="py-2 d-flex flex-row justify-content-between">
+                            <a href="{{ encryptedTextFile  }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Encrypted Text</a>
+                            <form action="/sender2" method="POST">
+                                <input type="hidden" name="encryptedText" value="{{ encryptedText}}" />
+                                <button class="btn btn-success">Hide in Image<i class="fa fa-arrow-right pl-2"></i></button>
+                            </form>
+                        </div>
+                        <div class="p-2 text-primary border border-primary rounded my-2">
+                            Size of encrypted message = <b>{{ imageCapacity }}</b> KB
+                            <br/>
+                            Mininum image pixel (width x height) = <b>{{imagePixel}}</b> px
                         </div>
                     </div>
-                    <div class="py-2">
-                        <input class="btn btn-block btn-primary" type="submit" value="Submit to Encrypt" />
-                    </div>
-                </form>
-           
-                <hr>
-                <div class="py-3">
-                    <div class="py-3 bg-success h5 text-light rounded text-center">RESULT</div>
-                    <div class="py-2">Resulted Encrypted Text</div>
-                    <div class="py-2">
-                        <a href="{{ encryptedText  }}" class="btn btn-success">Download Encrypted Text File</a>
-                    </div>
-                    <div class="py-2">
-                        <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="resultedImage" />
-                    </div>  
-                    <div class="py-2">
-                        <a class="btn btn-success" href="{{ imgOutput }}" alt="resultedImage" >Download Resulted Image</a>
-                    </div>  
+                    {% endif %}
                 </div>
 
             </div>
-
 
         </div>
         
-    
     </div>
 
 </body>

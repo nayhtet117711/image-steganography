@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
 
     <script>
         $(function () {
@@ -15,10 +17,10 @@
                     var file = e.originalEvent.srcElement.files[i];
                     var reader = new FileReader();
                     reader.onloadend = function () {
-                        $("#imgInput").attr("src", reader.result)
+                        $("#imgInput").attr("src", reader.result);
+                        $("#imgInput").show();
                     }
                     reader.readAsDataURL(file);
-
                 }
             });
         })
@@ -26,67 +28,68 @@
 </head>
 
 <body>
-
-    <div class="container" align="left">
-        <div class="row justify-content-center">
-            <div class="col-8 py-4 px-0">
-                <div class="py-3 text-center text-light bg-primary rounded">
-                    <div class="h3 pt-3 pb-4">SECRET MESSAGING with RSA and LSB</div>
-                    <div class="py-1">
-                        <a href="/sender" class="btn btn-light ">Sender Page</a>
-                        <a href="/receiver" class="btn btn-success mx-3">Receiver Page</a>
-                        <a href="/keys" class="btn btn-warning">Generate Key</a>
+    <div class="container">
+        <div class="row justify-content-center py-3">
+            <div class="col-8 p-0 pb-4 border border-primary rounded bg-primary">
+                <div class="pt-4 bg-primary text-light text-center d-flex flex-row px-3">
+                    <div class="">
+                        <a href="/" class="text-light h4"><i class="fa fa-home"></i></a>
                     </div>
+                    <div class="h5 flex-grow-1 w-100 ">Receiver - Extract</div>
+                    
                 </div>
-                
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-8 p-3 py-4 border border-primary rounded">
-                <h3 class="text-center">Receiver</h3>
-                <div>{{errorText}}</div>
-                <form action="/receiver" method="POST" enctype="multipart/form-data">
-                    <div class="py-2">
-                        <div>Upload private key to decrypt</div>
-                        <input type="file" name ="privKeyFile" class="form-control" /> 
+
+                <div class="p-3">
+                    <div class="border border-primary rounded bg-white">
+                        <div class="text-danger"><b>{{errorText}}</b></div>
+
+                        <!-- Input -->
+                        <form action="/receiver" method="POST" enctype="multipart/form-data">
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Select Stegano Image</div>
+                                <div class="d-flex flex-column">
+                                    <div class="pb-2">
+                                        {% if imgOutput|length >0 %}
+                                        <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="Uploaded Image" id="imgInput"/>
+                                        {% else %}
+                                        <img class="img-fluid img-thumbnail" src="" alt="Uploaded Image" id="imgInput" style="display: none;"/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="p-1 rounded border bg-success" style="max-width: 260px;">
+                                        <input type="file" name ="imgInputFile" class="text-white" accept="image/png" id="imgInputFile"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 text-center">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check pr-2"></i>Extract Text</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="py-2">
-                        <label>Upload LSB image to use in encryption.</label>
-                        <input class="form-control" type="file" name="imgInput" accept="image/png" id="imgInputFile" />
+
+                    <!-- Output -->
+                    {% if encryptedStageFile|length > 0 %}
+                    <div class="p-3 bg-white rounded mt-4">
+                        <div class="p-1 text-muted">Encrypted Text</div>
                         <div class="py-2">
-                            <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="Uploaded Image" id="imgInput" />
+                            <textarea rows="3" name="pubKeyText" class="form-control bg-light" placeholder="Encrypted Message">{{ encryptedStageText }}</textarea>
                         </div>
+                        <div class="py-2 d-flex flex-row justify-content-between">
+                            <a href="{{ encryptedStageFile  }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Encrypted Message</a>
+                            <form action="/receiver2" method="POST">
+                                <input type="hidden" name="encryptedText" value="{{ encryptedStageText }}" />
+                                <button class="btn btn-success">Decrypt<i class="fa fa-arrow-right pl-2"></i></button>
+                            </form>
+                        </div>
+                        
                     </div>
-                    <div class="py-2">
-                        <input class="btn btn-block btn-primary" type="submit" value="Submit to Decrypt" />
-                    </div>
-                </form>
-           
-                <hr>
-                <div class="py-3">
-                    <div class="py-3 bg-success h5 text-light rounded text-center">RESULT</div>
-                    <div class="pt-3">Resulted encrypted text</div>
-                    <div class="pb-2">
-                        <textarea class="form-control">{{text}}</textarea>
-                    </div>
-                    <div class="py-2">
-                        <a href="{{  encryptedStageFile }}" class="btn btn-success">Download encrypted file</a>
-                    </div>
-                    <div class="pt-3">Resulted decrypted text</div>
-                    <div class="pb-2">
-                        <textarea class="form-control">{{ decryptedText }}</textarea>
-                    </div>
-                    <div class="py-2">
-                        <a class="btn btn-success" href="{{ decryptedStageFile }}" alt="resultedImage" >Download decrypted text file</a>
-                    </div>  
+                    {% endif %}
                 </div>
 
             </div>
 
-
         </div>
-        
-    
+          
     </div>
 
 </body>

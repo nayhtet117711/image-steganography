@@ -5,14 +5,39 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href= "{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
    </head>
-   <body style="padding: 48px;" align="center">
-      <div style="padding: 24px">
-         <h1 style="color: #444444">SECRET MESSAGING</h1>
-      </div>
-      <div style="padding: 16px; font-size: 22px;">
-         <a href="/keys" style="margin: 16px;">Generate Keys</a>
-         <a href="/sender" style="margin: 16px;">Sender</a>
-         <a href="/receiver" style="margin: 16px;">Receiver</a>
+   <body >
+      
+      <div class="container">
+         <div class="row justify-content-center py-4">
+            <div class="col-10 p-5 border border-primary rounded">
+               <div class="d-flex flex-row" style="color: #484848">
+                  <div class="p-2"><img src="{{ url_for('static',filename='utycc.jpeg') }}" alt="utycclogo" width="100" height="100"></div>
+                  <div class="p-2 text-center w-100">
+                     <div class="pb-2 h3 font-weight-bold">University of Technology (Yatanarpon Cyber City)</div>
+                     <div class="p-2 h5 font-weight-bold">Department of Information Communication and Technology</div>
+                     <div class="p-4 h5 text-primary font-weight-bold">Combining Cryptography and Steganography of Hiding Data in Image</div>
+                  </div>
+               </div>
+               <div class="py-4">
+                  <div class="justify-content-center d-flex p-5">
+                     <a href="/sender" class="btn btn-success m-2">Sender</a>
+                     <a href="/receiver" class="btn btn-success m-2">Receiver</a>
+                  </div>
+               </div>
+               <div class="d-flex justify-content-between py-5 font-weight-bold" style="color: #484848">
+                  <div class="">
+                     <div class="p-2">Supervised by</div>
+                     <div class="p-2">Daw Nu Nu Htway</div>
+                     <div class="p-2">Lecturer</div>
+                  </div>
+                  <div class="">
+                     <div class="p-2">Presented by</div>
+                     <div class="p-2">Ma Aye Theingi Han</div>
+                     <div class="p-2">IST-58</div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
       
    </body>

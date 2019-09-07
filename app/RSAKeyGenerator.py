@@ -29,7 +29,7 @@ def generate():
 
 def get_prime():
     prime = []
-    for num in range(1000, 10000 + 1):
+    for num in range(100, 1000 + 1):
         # prime numbers are greater than 1
         if num > 1:
             for i in range(2, num):

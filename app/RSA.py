@@ -28,9 +28,12 @@ def decrypt(encText, privateKey):
 
     i = 0
     decText = ""
-    while i < l -2:
+    while i < l-2:
+    
         x = decryption(int(nums[i]), int(d), int(n))
+
         y = chr(x)
+        
         decText = decText+y
         #print(chr(x).encode('utf-8'), file=decrypted_Mess)
         i+=1

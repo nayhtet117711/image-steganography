@@ -7,7 +7,6 @@ extension = "png"
 
 def canEncode(message, image):
        width, height = image.size
-       # print(width, height)
        imageCapacity = width * height * bitsPerPixel
        messageCapacity = (len(message) * bitsPerChar) - (bitsPerChar + maxBitStuffing)
        return imageCapacity >= messageCapacity

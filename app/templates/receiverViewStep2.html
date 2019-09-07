@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Receiver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
+
+    <script>
+        $(function () {
+            
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center py-3">
+            <div class="col-8 p-0 pb-4 border border-primary rounded bg-primary">
+                <div class="pt-4 bg-primary text-light text-center d-flex flex-row px-3">
+                    <div class="">
+                        <a href="/" class="text-light h4"><i class="fa fa-home"></i></a>
+                    </div>
+                    <div class="h5 flex-grow-1 w-100 ">Receiver - RSA</div>
+                    
+                </div>
+
+                <div class="p-3">
+                    <div class="border border-primary rounded bg-white">
+                        <div class="text-danger"><b>{{errorText}}</b></div>
+
+                        <!-- Input -->
+                        <form action="/receiver2-do" method="POST" enctype="multipart/form-data">
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Encrypted Message</div>
+                                <div class="d-flex flex-column">
+                                    <div class="py-2">
+                                        <textarea rows="3" name="encryptedText" class="form-control bg-light" placeholder="Encrypted Message">{{ encryptedText }}</textarea>
+                                    </div>
+                                    <div class="p-1 rounded border bg-success" style="max-width: 260px;">
+                                        <input type="file" name ="encryptedTextFile" class="text-white"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Private Key</div>
+                                <div class="d-flex flex-column">
+                                    <div class="py-2">
+                                        <textarea rows="3" name="privKeyText" class="form-control bg-light" placeholder="Private Key">{{ privKeyText }}</textarea>
+                                    </div>
+                                    <div class="p-1 rounded border bg-success" style="max-width: 260px;">
+                                        <input type="file" name ="privKeyFile" class="text-white"/> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 text-center">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check pr-2"></i>Decrypt Message</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Output -->
+                    {% if decryptedText|length > 0 %}
+                    <div class="p-3 bg-white rounded mt-4">
+                        <div class="p-1 text-muted">Secret Message</div>
+                        <div class="py-2">
+                            <textarea rows="3" name="pubKeyText" class="form-control bg-light" placeholder="Text Message">{{ decryptedText }}</textarea>
+                        </div>
+                        <div class="py-2 d-flex flex-row justify-content-between">
+                            <a href="{{ decryptedTextFile  }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Message</a>
+                        </div>
+                        
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+
+</body>
+
+</html>
