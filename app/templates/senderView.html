@@ -33,12 +33,12 @@
 
                 <div class="p-3">
                     <div class="border border-primary rounded bg-white">
-                        <div class="text-danger"><b>{{errorText}}</b></div>
+                        <div class="text-danger text-center p-2"><b>{{errorText}}</b></div>
 
                         <!-- Input -->
                         <form action="/sender" method="POST" enctype="multipart/form-data">
                             <div class="p-3">
-                                <div class="p-1 text-muted">Secret Message</div>
+                                <div class="p-1 text-muted">Secret Message </div>
                                 <div class="d-flex flex-column">
                                     <div class="py-2">
                                         <textarea rows="3" name="secText" class="form-control bg-light" placeholder="Text Message">{{ secText }}</textarea>

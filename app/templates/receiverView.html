@@ -41,7 +41,7 @@
 
                 <div class="p-3">
                     <div class="border border-primary rounded bg-white">
-                        <div class="text-danger"><b>{{errorText}}</b></div>
+                        <div class="text-danger text-center p-2"><b>{{errorText}}</b></div>
 
                         <!-- Input -->
                         <form action="/receiver" method="POST" enctype="multipart/form-data">
@@ -56,8 +56,15 @@
                                         {% endif %}
                                     </div>
                                     <div class="p-1 rounded border bg-success" style="max-width: 260px;">
-                                        <input type="file" name ="imgInputFile" class="text-white" accept="image/png" id="imgInputFile"/> 
+                                        <input type="file" name ="imgInputFile" class="text-white" accept="image/png" id="imgInputFile" required/> 
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3">
+                                <div class="p-1 text-muted">Stego Key</div>
+                                <div class="p-1">
+                                    <input type="password" name="stegoKey" class="form-control d-inline" placeholder="Stego key" style="max-width: 260px;" required/>
                                 </div>
                             </div>
                             

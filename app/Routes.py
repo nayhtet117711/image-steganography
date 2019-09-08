@@ -60,11 +60,16 @@ def encryptTextStep1():
       encryptedStageFile.write(encryptedText)   
 
       imageCapacity, imagePixel = estimateImage(encryptedText)
-      print(imageCapacity, imagePixel)
+      imageCapacity = float(imageCapacity)/8000
+
+      if( imageCapacity > 50) :
+        return render_template(
+        'senderView.html', 
+        errorText = "Message size is greater than 50 KB (size="+str(imageCapacity)+")!")
 
       return render_template(
          'senderView.html', 
-         imageCapacity=imageCapacity/8000,
+         imageCapacity=imageCapacity,
          imagePixel=imagePixel,
          secText=secText,
          pubKeyText=publicKey,
@@ -76,6 +81,7 @@ def encryptTextStep2():
    imgInputFile = request.files['imgInputFile']
    encryptedTextFile = request.files['encryptedTextFile']
    encryptedText = request.form['encryptedText']
+   stegoKey = request.form['stegoKey']
 
    if(encryptedText==0) :
       encryptedTextFileName = secure_filename(encryptedTextFile.filename)
@@ -94,7 +100,7 @@ def encryptTextStep2():
    #       publicKey=publicKey,
    #       errorText="Image pixel size more than 800x800.")
 
-   hideMessage(os.path.join(app.root_path, 'temp', imgFileName), encryptedText)
+   hideMessage(os.path.join(app.root_path, 'temp', imgFileName), encryptedText+"_"+stegoKey)
 
    return render_template(
       'senderViewStep2.html', 
@@ -107,11 +113,20 @@ def decryptTextStep1():
       return render_template('receiverView.html')
    else :
       imgInputFile = request.files['imgInputFile']
+      stegoKey =  request.form['stegoKey']
 
       imgFileName = secure_filename(imgInputFile.filename)
       imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileName))      
   
       encryptedText = extractMessage(os.path.join(app.root_path, 'temp', imgFileName))
+
+      savedTextAndStegoKey = encryptedText.split("_")
+
+      if( (len(savedTextAndStegoKey)==2) & (savedTextAndStegoKey[1]!=stegoKey) ):
+        return render_template(
+        'receiverView.html', 
+        errorText = "Stego Key does not match!")
+
       encryptedStageFile = open(os.path.join(app.root_path, 'temp', "encryptedStageFile.txt"), "w+")
       encryptedStageFile.write(encryptedText)   
 
