@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, send_from_directory, escape
 from werkzeug import secure_filename
 import os
+from os.path import splitext
 import random
 from PIL import Image
 
@@ -38,7 +39,10 @@ def encryptTextStep1():
       if(len(secText)==0) :
          secFileName = secure_filename(secTextFile.filename)
          secTextFile.save(os.path.join(app.root_path, 'temp', secFileName))
-         secText = list(open(os.path.join(app.root_path, 'temp', secFileName)))[0]
+         secText = ""
+         secTextArr = list(open(os.path.join(app.root_path, 'temp', secFileName)))
+         for t in secTextArr:
+            secText = secText + "\n" + t
       
       if(len(pubKeyText)>0) :
          publicKey = pubKeyText
@@ -62,10 +66,10 @@ def encryptTextStep1():
       imageCapacity, imagePixel = estimateImage(encryptedText)
       imageCapacity = float(imageCapacity)/8000
 
-      if( imageCapacity > 50) :
-        return render_template(
-        'senderView.html', 
-        errorText = "Message size is greater than 50 KB (size="+str(imageCapacity)+")!")
+      # if( imageCapacity > 50) :
+      #   return render_template(
+      #   'senderView.html', 
+      #   errorText = "Message size is greater than 50 KB (size="+str(imageCapacity)+")!")
 
       return render_template(
          'senderView.html', 
@@ -89,23 +93,38 @@ def encryptTextStep2():
       encryptedText = list(open(os.path.join(app.root_path, 'temp', encryptedTextFileName)))[0]
 
    imgFileName = secure_filename(imgInputFile.filename)
+   filename, extension = splitext(imgFileName)
+   imgFileNameO = secure_filename(filename+"o"+extension)
+   # print(filename, extension, imgFileNameO, os.path.join(app.root_path)+"/temp/"+imgFileNameO)
    imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileName))
+   # imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileNameO))
    img = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
+   img.save(os.path.join(app.root_path)+"/temp/"+imgFileNameO)
 
-   # imgWidth, imgHeight = img.size
-   # if(imgWidth>800 | imgHeight>800) :
-   #    return render_template(
-   #       'senderView.html', 
-   #       text=text,
-   #       publicKey=publicKey,
-   #       errorText="Image pixel size more than 800x800.")
+   osize = img.size
+
+   imageCapacity, imagePixel = estimateImage(encryptedText)
+   imageCapacity = float(imageCapacity)/8000
+
+   imgWidth, imgHeight = img.size
+   if(imagePixel>= imgWidth*imgHeight) :
+      return render_template(
+         'senderViewStep2.html', 
+         encryptedText=encryptedText,
+         errorText="Image pixel ("+str(imgWidth)+" x "+ str(imgHeight)+") is not enough the text "+str(imageCapacity) +" KB!")
 
    hideMessage(os.path.join(app.root_path, 'temp', imgFileName), encryptedText+"_"+stegoKey)
+
+   imgn = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
+   nsize = imgn.size
 
    return render_template(
       'senderViewStep2.html', 
       encryptedText=encryptedText,
-      imgOutput = "/downloads/"+imgFileName
+      imgOutput = "/downloads/"+imgFileName,
+      imgInput = "/downloads/"+imgFileNameO,
+      osize=osize,
+      nsize=nsize
    )
 
 def decryptTextStep1():
@@ -121,6 +140,8 @@ def decryptTextStep1():
       encryptedText = extractMessage(os.path.join(app.root_path, 'temp', imgFileName))
 
       savedTextAndStegoKey = encryptedText.split("_")
+
+      print("savetext", encryptedText)
 
       if( (len(savedTextAndStegoKey)==2) & (savedTextAndStegoKey[1]!=stegoKey) ):
         return render_template(

@@ -68,7 +68,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="p-1 rounded border bg-success" style="max-width: 260px;">
-                                        <input type="file" name ="imgInputFile" class="text-white" accept="image/png" id="imgInputFile"/> 
+                                        <input type="file" name ="imgInputFile" class="text-white" accept="image/*" id="imgInputFile"/> 
                                     </div>
                                 </div>
                             </div>
@@ -87,12 +87,30 @@
                     <!-- Output -->
                     {% if imgOutput|length > 0 %}
                     <div class="p-3 bg-white rounded mt-4">
-                        <div class="p-1 text-muted">Stegano Image</div>
+                        <div class="p-1 text-muted">Stego Image</div>
                         <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="resultedImage" />
                         <div class="py-2">
                             <a href="{{ imgOutput  }}" class="btn btn-success"><i class="fa fa-save pr-2"></i>Save Image</a>
                         </div>
                     </div>
+
+                    <div class="p-3 bg-white rounded mt-4">
+                        <div class="text-primary font-weight-bold h5 py-3 px-1">Image Comparasion</div>
+                        <div class="d-flex flex-row">
+                            <div>
+                                <img class="img-fluid img-thumbnail" src="{{ imgInput }}" alt="originalImage" />
+                                <div class="text-secondary text-center">Original Image</div>
+                                <div class="text-primary text-center">pixel {{osize}}</div>
+                            </div>
+                            <div>
+                                <img class="img-fluid img-thumbnail" src="{{ imgOutput }}" alt="resultedImage" />
+                                <div class="text-secondary text-center">Stego Image</div>
+                                <div class="text-primary text-center">pixel {{nsize}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+
                     {% endif %}
                 </div>
 
