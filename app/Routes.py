@@ -36,7 +36,7 @@ def encryptTextStep1():
       secText = request.form['secText']
       pubKeyText = request.form['pubKeyText']
 
-      if(len(secText)==0) :
+      if(len(secText)==0) :   
          secFileName = secure_filename(secTextFile.filename)
          secTextFile.save(os.path.join(app.root_path, 'temp', secFileName))
          secText = ""

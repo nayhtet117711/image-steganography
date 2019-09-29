@@ -38,7 +38,7 @@ def encodeLSB(message, imageFilename, newImageFilename):
 
        img = Image.open(imageFilename)
        
-       if extension==".jpeg":
+       if (extension==".jpeg") | (extension==".jpg"):
               img.save(filename+fextension)
               img = Image.open(filename+fextension)
        
@@ -86,7 +86,7 @@ def decodeLSB(imageFilename):
 
        img = Image.open(imageFilename)
        
-       if extension==".jpeg":
+       if (extension==".jpeg") | (extension==".jpg"):
               # print("do")
               img.save(filename+fextension)
               img = Image.open(filename+"_"+fextension)
