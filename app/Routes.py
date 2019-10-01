@@ -102,6 +102,7 @@ def encryptTextStep2():
    img.save(os.path.join(app.root_path)+"/temp/"+imgFileNameO)
 
    osize = img.size
+   ofsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
 
    imageCapacity, imagePixel = estimateImage(encryptedText)
    imageCapacity = float(imageCapacity)/8000
@@ -117,6 +118,7 @@ def encryptTextStep2():
 
    imgn = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
    nsize = imgn.size
+   nfsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
 
    return render_template(
       'senderViewStep2.html', 
@@ -124,7 +126,9 @@ def encryptTextStep2():
       imgOutput = "/downloads/"+imgFileName,
       imgInput = "/downloads/"+imgFileNameO,
       osize=osize,
-      nsize=nsize
+      ofsize=int(ofsize)/1000,
+      nsize=nsize,
+      nfsize=int(nfsize)/1000
    )
 
 def decryptTextStep1():
