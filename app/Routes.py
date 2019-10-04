@@ -123,7 +123,7 @@ def encryptTextStep2():
    return render_template(
       'senderViewStep2.html', 
       encryptedText=encryptedText,
-      imgOutput = "/downloads/"+imgFileName,
+      imgOutput = "/downloads/"+filename+"_enc"+extension if (extension==".jpeg") | (extension==".jpg") else "/downloads/"+imgFileName,
       imgInput = "/downloads/"+imgFileNameO,
       osize=osize,
       ofsize=int(ofsize)/1000,

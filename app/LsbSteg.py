@@ -62,7 +62,10 @@ def encodeLSB(message, imageFilename, newImageFilename):
        # print(newImageFilename)
 
        newImg.save(filename+"_enc_"+fextension)
-       newImg.save(newImageFilename)
+       if (extension==".jpeg") | (extension==".jpg"):
+              newImg.save(filename+"_enc"+extension)
+       else :
+              newImg.save(newImageFilename)
 
        return newImg
 
