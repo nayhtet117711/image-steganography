@@ -4,6 +4,9 @@ import os
 from os.path import splitext
 import random
 from PIL import Image
+import numpy 
+import math
+import cv2
 
 from RSA import encrypt, decrypt
 from RSAKeyGenerator import generate
@@ -18,7 +21,6 @@ extension = "png"
 
 def estimateImage(message):
       #  width, height = image.size
-   
       #  imageCapacity = width * height * bitsPerPixel
        messageCapacity = (len(message) * bitsPerChar) - (bitsPerChar + maxBitStuffing)
       
@@ -103,6 +105,7 @@ def encryptTextStep2():
 
    osize = img.size
    ofsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
+   original = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName)) #new 
 
    imageCapacity, imagePixel = estimateImage(encryptedText)
    imageCapacity = float(imageCapacity)/8000
@@ -119,6 +122,10 @@ def encryptTextStep2():
    imgn = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
    nsize = imgn.size
    nfsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
+   contrast = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName)) #new 
+
+   psnrValue=psnr(original,contrast)
+   mseValue= mse(original,contrast)
 
    return render_template(
       'senderViewStep2.html', 
@@ -128,8 +135,21 @@ def encryptTextStep2():
       osize=osize,
       ofsize=int(ofsize)/1000,
       nsize=nsize,
-      nfsize=int(nfsize)/1000
+      nfsize=int(nfsize)/1000,
+      psnr = psnrValue,
+      mse = mseValue
    )
+
+# ==================================================
+def psnr(img1, img2):
+    mse = numpy.mean( (img1 - img2) ** 2 )
+    if mse == 0:
+        return 100
+    PIXEL_MAX = 255.0
+    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
+def mse(img1, img2):
+    return numpy.mean( (img1 - img2) ** 2 )
+#  ====================================================
 
 def decryptTextStep1():
    if request.method == 'GET':
