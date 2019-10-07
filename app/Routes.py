@@ -122,7 +122,11 @@ def encryptTextStep2():
    imgn = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
    nsize = imgn.size
    nfsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
-   contrast = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName)) #new 
+   contrast = None
+   if (extension==".jpeg") | (extension==".jpg"):
+      contrast = cv2.imread(os.path.join(app.root_path, 'temp', filename+"_enc_.png"), 1) #new 
+   else:
+      contrast = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName), 1) #new 
 
    psnrValue=psnr(original,contrast)
    mseValue= mse(original,contrast)
