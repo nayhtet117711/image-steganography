@@ -99,13 +99,14 @@ def encryptTextStep2():
    imgFileNameO = secure_filename(filename+"o"+extension)
    # print(filename, extension, imgFileNameO, os.path.join(app.root_path)+"/temp/"+imgFileNameO)
    imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileName))
-   # imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileNameO))
+   imgInputFile.save(os.path.join(app.root_path, 'temp', imgFileNameO))
    img = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
    img.save(os.path.join(app.root_path)+"/temp/"+imgFileNameO)
 
    osize = img.size
-   ofsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
+   ofsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileNameO))
    original = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName)) #new 
+   print("osize: ", ofsize)
 
    imageCapacity, imagePixel = estimateImage(encryptedText)
    imageCapacity = float(imageCapacity)/8000
@@ -119,14 +120,15 @@ def encryptTextStep2():
 
    hideMessage(os.path.join(app.root_path, 'temp', imgFileName), encryptedText+"_"+stegoKey)
 
-   imgn = Image.open(os.path.join(app.root_path, 'temp', imgFileName))
+   imgn = Image.open(os.path.join(app.root_path, 'temp', filename+"_enc_.png"))
    nsize = imgn.size
-   nfsize = os.path.getsize(os.path.join(app.root_path, 'temp', imgFileName))
-   contrast = None
-   if (extension==".jpeg") | (extension==".jpg"):
-      contrast = cv2.imread(os.path.join(app.root_path, 'temp', filename+"_enc_.png"), 1) #new 
-   else:
-      contrast = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName), 1) #new 
+   nfsize = os.path.getsize(os.path.join(app.root_path, 'temp', filename+"_enc_.png"))
+   # print("nsize: ", nfsize)
+   # contrast = None
+   # if (extension==".jpeg") | (extension==".jpg"):
+   contrast = cv2.imread(os.path.join(app.root_path, 'temp', filename+"_enc_.png"), 1) #new 
+   # else:
+      # contrast = cv2.imread(os.path.join(app.root_path, 'temp', imgFileName), 1) #new 
 
    psnrValue=psnr(original,contrast)
    mseValue= mse(original,contrast)
@@ -152,6 +154,7 @@ def psnr(img1, img2):
     PIXEL_MAX = 255.0
     return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 def mse(img1, img2):
+    print(img1, img2)
     return numpy.mean( (img1 - img2) ** 2 )
 #  ====================================================
 
